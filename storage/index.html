@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>How Much Storage Do I Need for Video Footage</title>
+<link rel="stylesheet" href="style.css">
+    <meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+</head>
+<body>
+
+<h1>How Much Storage Do I Need for Video Footage</h1>
+
+<p>This calculator estimates the storage required for video footage based on bitrate and recording time. It is especially useful when planning shoots or managing storage for large projects.</p>
+
+<p>Higher resolutions like 4K require significantly more storage due to increased bitrate. Use realistic values depending on your camera settings.</p>
+
+
+<label>Bitrate (Mbps):</label><input id="bitrate" type="number">
+<label>Recording Time (minutes):</label><input id="time" type="number">
+
+
+<button onclick="calc()">Calculate Storage</button>
+
+<p id="result"></p>
+
+<h3>Explore Other Tools</h3>
+<ul>
+<li><a href="../4k/index.html">4K Video Storage Calculator</a></li>
+</ul>
+
+<script>
+function calc(){
+
+let bitrate=parseFloat(document.getElementById('bitrate').value)||0;
+let time=parseFloat(document.getElementById('time').value)||0;
+
+// size in MB: (bitrate * time * 60) / 8
+let result = (bitrate * time * 60) / 8;
+
+document.getElementById('result').innerText="Estimated Storage: " + result.toFixed(2) + " MB";
+}
+</script>
+
+</body>
+</html>
