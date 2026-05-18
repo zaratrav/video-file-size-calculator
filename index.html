@@ -1,25 +1,447 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
-<title>Video File Size & Storage Calculators</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+    <title>ProRes RAW File Size Calculator: Estimate Storage for ProRes RAW & Codec Video</title>
+    <meta name="description" content="Free ProRes RAW file size calculator. Calculate storage needed for ProRes RAW, ProRes 422 HQ, and other codecs. Estimate video file size by resolution, frame rate, and duration.">
+    <meta name="keywords" content="prores raw file size calculator, prores calculator, prores raw storage, video file size calculator, prores 422 hq, raw video file size, video storage calculator">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <h1>ProRes RAW File Size Calculator</h1>
+            <p class="subtitle">Calculate storage needed for ProRes RAW, ProRes 422 HQ, and other video codecs</p>
+        </div>
+    </header>
 
-<h1>Video File Size & Storage Calculators</h1>
+    <main>
+        <section class="intro">
+            <div class="container">
+                <h2>Plan Storage for ProRes RAW & Professional Video Codecs</h2>
+                <p>
+                    ProRes RAW offers uncompressed image quality with manageable file sizes, but storage planning is critical. This calculator 
+                    helps videographers, colorists, and editors estimate how much storage they need for ProRes RAW, ProRes 422 HQ, and other 
+                    codecs. Know exact file sizes before you shoot—avoid running out of storage during production.
+                </p>
+            </div>
+        </section>
 
-<p>Estimate how much storage you need for video footage based on resolution, bitrate, and recording time. These tools help content creators, videographers, and editors plan storage efficiently.</p>
+        <!-- FILE SIZE CALCULATOR TOOL -->
+        <section class="featured-tool">
+            <div class="container">
+                <h2>Video File Size Calculator</h2>
+                <p>Calculate the file size and storage requirements for your video project. Supports ProRes RAW, ProRes HQ, and standard video codecs.</p>
 
-<p>Understanding video file size is critical when working with 4K footage, RAW files, or long recording sessions.</p>
+                <div class="calculator prores-calc">
+                    <div class="calc-section">
+                        <h3>Video Parameters</h3>
+                        <p class="section-hint">Enter resolution, frame rate, duration, and codec. Results update automatically.</p>
 
-<h3>Tools</h3>
-<ul>
-<li><a href="storage/index.html">How Much Storage Do I Need for Video Footage</a></li><li><a href="4k/index.html">4K Video Storage Calculator</a></li>
-</ul>
+                        <div class="inputs-grid">
+                            <div class="input-group">
+                                <label>Resolution</label>
+                                <select id="resolution" onchange="calculateFileSize()">
+                                    <option value="1920x1080">1080p (1920x1080)</option>
+                                    <option value="2560x1440">1440p (2560x1440)</option>
+                                    <option value="3840x2160">4K (3840x2160)</option>
+                                    <option value="4096x2160">DCI 4K (4096x2160)</option>
+                                    <option value="5120x2700">5K (5120x2700)</option>
+                                    <option value="7680x4320">8K (7680x4320)</option>
+                                    <option value="custom">Custom...</option>
+                                </select>
+                            </div>
+                            <div class="input-group" id="customResGroup" style="display: none;">
+                                <label>Width (pixels)</label>
+                                <input type="number" id="customWidth" placeholder="3840" min="1" onchange="calculateFileSize()">
+                            </div>
+                            <div class="input-group" id="customHeightGroup" style="display: none;">
+                                <label>Height (pixels)</label>
+                                <input type="number" id="customHeight" placeholder="2160" min="1" onchange="calculateFileSize()">
+                            </div>
+                            <div class="input-group">
+                                <label>Frame Rate (fps)</label>
+                                <select id="frameRate" onchange="calculateFileSize()">
+                                    <option value="23.976">23.976 fps (Film)</option>
+                                    <option value="24">24 fps</option>
+                                    <option value="25">25 fps (PAL)</option>
+                                    <option value="29.97">29.97 fps (NTSC)</option>
+                                    <option value="30">30 fps</option>
+                                    <option value="50">50 fps</option>
+                                    <option value="59.94">59.94 fps</option>
+                                    <option value="60">60 fps</option>
+                                    <option value="120">120 fps</option>
+                                    <option value="custom">Custom...</option>
+                                </select>
+                            </div>
+                            <div class="input-group" id="customFpsGroup" style="display: none;">
+                                <label>Custom FPS</label>
+                                <input type="number" id="customFps" placeholder="60" step="0.01" min="1" onchange="calculateFileSize()">
+                            </div>
+                            <div class="input-group">
+                                <label>Codec / Format</label>
+                                <select id="codec" onchange="calculateFileSize()">
+                                    <option value="prores-raw">ProRes RAW (12-bit)</option>
+                                    <option value="prores-raw-hq">ProRes RAW HQ (12-bit)</option>
+                                    <option value="prores-422-hq">ProRes 422 HQ</option>
+                                    <option value="prores-422">ProRes 422</option>
+                                    <option value="prores-422-lt">ProRes 422 LT</option>
+                                    <option value="prores-proxy">ProRes Proxy</option>
+                                    <option value="dnxhd-145">DNxHD 145 (1080p)</option>
+                                    <option value="dnxhd-220">DNxHD 220 (1080p)</option>
+                                    <option value="dnxhr-hqx">DNxHR HQX</option>
+                                    <option value="h264">H.264 (5 Mbps)</option>
+                                    <option value="h265">H.265/HEVC (5 Mbps)</option>
+                                    <option value="custom">Custom Bitrate...</option>
+                                </select>
+                            </div>
+                            <div class="input-group" id="customBitrateGroup" style="display: none;">
+                                <label>Custom Bitrate (Mbps)</label>
+                                <input type="number" id="customBitrate" placeholder="100" min="1" step="0.1" onchange="calculateFileSize()">
+                            </div>
+                        </div>
 
-<p>Use these tools to avoid running out of storage and to plan your workflow before recording or editing.</p>
+                        <div class="duration-input">
+                            <h4>Duration</h4>
+                            <div class="duration-fields">
+                                <div class="input-group small">
+                                    <label>Hours</label>
+                                    <input type="number" id="hours" placeholder="0" min="0" value="0" onchange="calculateFileSize()">
+                                </div>
+                                <div class="input-group small">
+                                    <label>Minutes</label>
+                                    <input type="number" id="minutes" placeholder="0" min="0" max="59" value="1" onchange="calculateFileSize()">
+                                </div>
+                                <div class="input-group small">
+                                    <label>Seconds</label>
+                                    <input type="number" id="seconds" placeholder="0" min="0" max="59" value="0" onchange="calculateFileSize()">
+                                </div>
+                                <div class="input-group small">
+                                    <label>OR Total Frames</label>
+                                    <input type="number" id="totalFrames" placeholder="0" min="0" onchange="calculateFileSize()">
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="quick-scenarios">
+                            <p class="template-label">Quick scenarios:</p>
+                            <button class="scenario-btn" onclick="loadScenario('prores-raw-4k-24fps-1hr')">ProRes RAW 4K 24fps 1hr</button>
+                            <button class="scenario-btn" onclick="loadScenario('prores-422-hq-4k-30fps-8hr')">ProRes 422 HQ 4K 30fps 8hr</button>
+                            <button class="scenario-btn" onclick="loadScenario('h264-1080p-60fps-30min')">H.264 1080p 60fps 30min</button>
+                        </div>
+                    </div>
+
+                    <!-- RESULTS -->
+                    <div class="calc-results" id="filesizeResults" style="display: none;">
+                        <h3>File Size & Storage Calculation</h3>
+
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <span class="metric-label">File Size</span>
+                                <span class="metric-display" id="fileSize">0 GB</span>
+                                <span class="metric-hint">Per clip/duration</span>
+                            </div>
+                            <div class="result-card">
+                                <span class="metric-label">Bitrate</span>
+                                <span class="metric-display" id="bitrateDisplay">0 Mbps</span>
+                                <span class="metric-hint">Data per second</span>
+                            </div>
+                            <div class="result-card">
+                                <span class="metric-label">Storage (1 Copy)</span>
+                                <span class="metric-display" id="storageOne">0 GB</span>
+                                <span class="metric-hint">Single clip</span>
+                            </div>
+                            <div class="result-card">
+                                <span class="metric-label">Storage (3 Backups)</span>
+                                <span class="metric-display" id="storageThree">0 GB</span>
+                                <span class="metric-hint">With redundancy</span>
+                            </div>
+                        </div>
+
+                        <div class="detailed-breakdown">
+                            <h4>Detailed Breakdown</h4>
+                            <table class="breakdown-table">
+                                <tr>
+                                    <td><strong>Resolution</strong></td>
+                                    <td id="resDisplay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Frame Rate</strong></td>
+                                    <td id="fpsDisplay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Codec/Format</strong></td>
+                                    <td id="codecDisplay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duration</strong></td>
+                                    <td id="durationDisplay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Frames</strong></td>
+                                    <td id="totalFramesDisplay"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bitrate</strong></td>
+                                    <td id="bitrateBreakdown"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Per Minute</strong></td>
+                                    <td id="dataPerMinute"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Per Hour</strong></td>
+                                    <td id="dataPerHour"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="storage-recommendations">
+                            <h4>💾 Storage Recommendations</h4>
+                            <div id="storageRecommendations"></div>
+                        </div>
+
+                        <div class="codec-comparison">
+                            <h4>Codec Comparison at This Resolution</h4>
+                            <table id="codecComparisonTable" class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Codec</th>
+                                        <th>Bitrate</th>
+                                        <th>File Size (1 hr)</th>
+                                        <th>Quality</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="codecComparisonBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATIONAL GUIDE -->
+        <section class="guide">
+            <div class="container">
+                <h2>Understanding Video File Sizes & Storage</h2>
+
+                <h3>What is File Size in Video?</h3>
+                <p>
+                    Video file size is determined by three main factors: resolution (pixels), frame rate (fps), and bitrate (Mbps). 
+                    The formula is simple: File Size = Bitrate × Duration. Higher resolution, higher frame rate, or higher bitrate 
+                    all increase file size. Professional formats like ProRes RAW offer high quality but large file sizes, while 
+                    compressed formats like H.264 are smaller but lower quality.
+                </p>
+
+                <h3>ProRes vs Other Codecs</h3>
+                <div class="codec-grid">
+                    <div class="codec-card">
+                        <h4>🎬 ProRes RAW</h4>
+                        <p><strong>Quality:</strong> Uncompressed (12-bit RAW)</p>
+                        <p><strong>Use:</strong> Professional color grading, preservation</p>
+                        <p><strong>File Size:</strong> Very large (~900 Mbps at 4K 24fps)</p>
+                        <p><strong>Best For:</strong> High-end production, archival</p>
+                    </div>
+                    <div class="codec-card">
+                        <h4>🎞️ ProRes 422 HQ</h4>
+                        <p><strong>Quality:</strong> Compressed (high quality)</p>
+                        <p><strong>Use:</strong> Professional editing, broadcast</p>
+                        <p><strong>File Size:</strong> Moderate (~500 Mbps at 4K 24fps)</p>
+                        <p><strong>Best For:</strong> Post-production, streaming delivery</p>
+                    </div>
+                    <div class="codec-card">
+                        <h4>📹 DNxHD/DNxHR</h4>
+                        <p><strong>Quality:</strong> Mezzanine codec (Windows alternative)</p>
+                        <p><strong>Use:</strong> Professional editing on Windows</p>
+                        <p><strong>File Size:</strong> Similar to ProRes</p>
+                        <p><strong>Best For:</strong> Windows-based workflows</p>
+                    </div>
+                    <div class="codec-card">
+                        <h4>💻 H.264 / H.265</h4>
+                        <p><strong>Quality:</strong> Highly compressed</p>
+                        <p><strong>Use:</strong> Web streaming, final delivery</p>
+                        <p><strong>File Size:</strong> Very small (~5-50 Mbps)</p>
+                        <p><strong>Best For:</strong> Distribution, streaming</p>
+                    </div>
+                </div>
+
+                <h3>Bitrate Explained</h3>
+                <p>
+                    Bitrate is the amount of data processed per second, measured in Megabits per second (Mbps). 
+                    Higher bitrate = higher quality but larger file size. For example:
+                </p>
+                <ul style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                    <li><strong>100 Mbps:</strong> Professional quality, ProRes RAW-adjacent, highest quality</li>
+                    <li><strong>50 Mbps:</strong> High quality, ProRes 422 HQ, suitable for color grading</li>
+                    <li><strong>25 Mbps:</strong> Good quality, ProRes 422, common in production</li>
+                    <li><strong>10 Mbps:</strong> Acceptable quality, streaming, lower bandwidth</li>
+                    <li><strong>5 Mbps:</strong> Compressed, streaming, small file sizes</li>
+                </ul>
+
+                <h3>ProRes RAW Specifications</h3>
+                <div class="specs-grid">
+                    <div class="spec-card">
+                        <h4>4K ProRes RAW (4096x2160)</h4>
+                        <p><strong>Bitrate:</strong> ~2 Gbps (uncompressed RAW)</p>
+                        <p><strong>Effective:</strong> ~900 Mbps (with compression)</p>
+                        <p><strong>1 Hour File:</strong> ~405 GB uncompressed</p>
+                        <p><strong>1 Hour File:</strong> ~400-410 GB in practice</p>
+                    </div>
+                    <div class="spec-card">
+                        <h4>6K ProRes RAW (6144x3160)</h4>
+                        <p><strong>Bitrate:</strong> ~3 Gbps (uncompressed RAW)</p>
+                        <p><strong>Effective:</strong> ~1.4 Gbps (with compression)</p>
+                        <p><strong>1 Hour File:</strong> ~630 GB uncompressed</p>
+                        <p><strong>1 Hour File:</strong> ~630-650 GB in practice</p>
+                    </div>
+                    <div class="spec-card">
+                        <h4>8K ProRes RAW (8192x4320)</h4>
+                        <p><strong>Bitrate:</strong> ~5.4 Gbps (uncompressed RAW)</p>
+                        <p><strong>Effective:</strong> ~2.1 Gbps (with compression)</p>
+                        <p><strong>1 Hour File:</strong> ~945 GB uncompressed</p>
+                        <p><strong>1 Hour File:</strong> ~950-1000 GB in practice</p>
+                    </div>
+                </div>
+
+                <h3>Storage Planning: The 3-2-1 Rule</h3>
+                <div class="storage-rule">
+                    <p>
+                        Professional video production follows the 3-2-1 backup rule: <strong>3 copies of your data, 
+                        on 2 different types of media, with 1 copy stored off-site</strong>.
+                    </p>
+                    <ul style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                        <li><strong>3 Copies:</strong> Original + 2 backups (minimum)</li>
+                        <li><strong>2 Media Types:</strong> Fast SSD for editing, slow HDD for archive</li>
+                        <li><strong>1 Off-site:</strong> Cloud storage (AWS, Google Cloud) for disaster recovery</li>
+                    </ul>
+                </div>
+
+                <h3>File Size Examples</h3>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h4>1 Hour 4K ProRes RAW 24fps</h4>
+                        <p><strong>File Size:</strong> ~410 GB</p>
+                        <p><strong>Bitrate:</strong> ~920 Mbps</p>
+                        <p><strong>Storage (3-2-1):</strong> 1.2 TB total</p>
+                    </div>
+                    <div class="example-card">
+                        <h4>8 Hour Shoot 4K ProRes 422 HQ 30fps</h4>
+                        <p><strong>File Size:</strong> ~1.44 TB</p>
+                        <p><strong>Bitrate:</strong> ~500 Mbps</p>
+                        <p><strong>Storage (3-2-1):</strong> 4.3 TB total</p>
+                    </div>
+                    <div class="example-card">
+                        <h4>30 Minute 1080p H.264 60fps</h4>
+                        <p><strong>File Size:</strong> ~11 GB</p>
+                        <p><strong>Bitrate:</strong> ~5 Mbps</p>
+                        <p><strong>Storage (3-2-1):</strong> 33 GB total</p>
+                    </div>
+                </div>
+
+                <h3>Common Storage Mistakes</h3>
+                <div class="mistakes-grid">
+                    <div class="mistake-card">
+                        <h4>❌ Only 1 Copy of Footage</h4>
+                        <p>Hard drives fail. Always maintain 3 copies: original, backup, and off-site. ProRes RAW is too valuable to lose.</p>
+                    </div>
+                    <div class="mistake-card">
+                        <h4>❌ Underestimating Storage Needs</h4>
+                        <p>4K RAW is ~410 GB/hour. Plan for 2-3x the raw footage size (proxies, backups, working files).</p>
+                    </div>
+                    <div class="mistake-card">
+                        <h4>❌ Using Consumer Drives for Video</h4>
+                        <p>Consumer USB drives/SD cards fail under sustained writes. Use professional SSD/HDD rated for video (e.g., Atomos, G-Technology).</p>
+                    </div>
+                    <div class="mistake-card">
+                        <h4>❌ No Proxy Workflow</h4>
+                        <p>Editing 4K RAW is slow. Create H.264 proxies for editing, conform to RAW on export. 10x faster.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQS -->
+        <section class="faqs">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <h3>How much storage do I need for ProRes RAW?</h3>
+                    <p>
+                        ProRes RAW at 4K 24fps generates ~410 GB per hour. For an 8-hour shoot: 3.28 TB. 
+                        With 3-2-1 backup strategy: ~10 TB total storage (3 copies across different drives/locations).
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What's the difference between ProRes RAW and ProRes 422 HQ?</h3>
+                    <p>
+                        ProRes RAW is uncompressed 12-bit RAW data (maximum quality). ProRes 422 HQ is lossy-compressed 10-bit. 
+                        ProRes RAW is ~900 Mbps; ProRes 422 HQ is ~500 Mbps. Use RAW for color grading; HQ for editing/delivery.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I edit 4K ProRes RAW directly?</h3>
+                    <p>
+                        Technically yes, but impractical. ProRes RAW is very large and demanding. Standard workflow: 
+                        (1) Record ProRes RAW, (2) Create H.264 proxies, (3) Edit proxies, (4) Conform to RAW on final export.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I calculate bitrate if I don't know it?</h3>
+                    <p>
+                        Bitrate = (Width × Height × Bit Depth × Frame Rate) / (1,000,000) Mbps. 
+                        For 4K RAW 12-bit 24fps: (4096 × 2160 × 12 × 24) / 1,000,000 = 3,145 Mbps (raw), 
+                        compressed ProRes RAW ~920 Mbps.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What's the cheapest reliable storage for video?</h3>
+                    <p>
+                        For budget: 8TB external HDDs (~$100-150 each). For performance: NVMe SSD drives. 
+                        For archival: LTO tape (most cost-effective at scale). Buy 3 of the same drive model to maintain redundancy.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Should I use SSD or HDD for video storage?</h3>
+                    <p>
+                        SSD for active editing (fast access), HDD for archive (cost-effective at scale). 
+                        Many professionals use: SSD for current project, HDD for backup, cloud for off-site copy.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does frame rate affect file size?</h3>
+                    <p>
+                        Yes, directly. 60fps generates 2.5x more data than 24fps (same resolution, codec). 
+                        A 4K 60fps ProRes RAW clip is huge (~1 TB/hour). 24fps is more manageable.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I use cloud storage for ProRes RAW?</h3>
+                    <p>
+                        For backup/off-site copy: yes (AWS S3, Google Cloud, Dropbox). For active editing: no (too slow). 
+                        Typical workflow: local SSD for editing, cloud for backup.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ProRes RAW File Size Calculator. Plan your video storage with confidence.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
